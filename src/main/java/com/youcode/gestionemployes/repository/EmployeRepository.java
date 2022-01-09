@@ -6,11 +6,11 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface EmployeRepository {
-    void save(Employe employe);
+    Employe save(Employe employe);
 
     Collection<Employe> findAll();
 
-    Optional<Employe> findById(int id);
+    Optional<Employe> findById(Integer id);
 
     Employe update(Employe employe);
 

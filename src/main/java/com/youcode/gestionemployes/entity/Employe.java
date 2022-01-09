@@ -1,6 +1,7 @@
 package com.youcode.gestionemployes.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.NamedQuery;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,16 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "employes")
+@NamedQuery(name = "Employe.findAll", query = " SELECT a FROM employes a")
 public class Employe extends Utilisateur implements Serializable {
     private String matricule;
-    private Float salaire;
+    private Double salaire;
 
+    @Override
+    public String toString() {
+        return "Employe{" +
+                "matricule='" + matricule + '\'' +
+                ", salaire=" + salaire +
+                "} " + super.toString();
+    }
 }

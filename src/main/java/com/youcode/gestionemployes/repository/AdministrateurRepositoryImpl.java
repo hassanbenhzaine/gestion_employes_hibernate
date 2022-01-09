@@ -15,8 +15,9 @@ public class AdministrateurRepositoryImpl implements AdministrateurRepository {
     }
 
     @Override
-    public void save(Administrateur administrateur) {
+    public Administrateur save(Administrateur administrateur) {
         administrateurDAO.create(administrateur);
+        return administrateur;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class AdministrateurRepositoryImpl implements AdministrateurRepository {
     }
 
     @Override
-    public Optional<Administrateur> findById(int id) {
+    public Optional<Administrateur> findById(Integer id) {
         return administrateurDAO.get(id);
     }
 
@@ -40,10 +41,4 @@ public class AdministrateurRepositoryImpl implements AdministrateurRepository {
         administrateurDAO.delete(administrateur);
     }
 
-    @Override
-    public Optional<Administrateur> findByEmailAndPassword(String email, String password) {
-        return administrateurDAO.getAll().stream().parallel()
-                .filter(a -> a.getEmail().equals(email) && a.getPassword().equals(password))
-                .findAny();
-    }
 }

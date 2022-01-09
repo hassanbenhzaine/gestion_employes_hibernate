@@ -15,8 +15,9 @@ public class EmployeRepositoryImpl implements EmployeRepository {
     }
 
     @Override
-    public void save(Employe employe) {
+    public Employe save(Employe employe) {
         employeDAO.create(employe);
+        return employe;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class EmployeRepositoryImpl implements EmployeRepository {
     }
 
     @Override
-    public Optional<Employe> findById(int id) {
+    public Optional<Employe> findById(Integer id) {
         return employeDAO.get(id);
     }
 

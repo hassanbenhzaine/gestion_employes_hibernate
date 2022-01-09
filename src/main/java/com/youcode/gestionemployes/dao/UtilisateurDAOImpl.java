@@ -1,6 +1,6 @@
 package com.youcode.gestionemployes.dao;
 
-import com.youcode.gestionemployes.entity.Employe;
+import com.youcode.gestionemployes.entity.Utilisateur;
 import com.youcode.gestionemployes.shared.EntityManagerFactoryProvider;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -8,55 +8,58 @@ import jakarta.persistence.EntityManagerFactory;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-public class EmployeeDAOImpl implements GenericDAO<Employe, Integer> {
+
+public class UtilisateurDAOImpl implements GenericDAO<Utilisateur, Integer> {
     private final EntityManager em;
 
-    public EmployeeDAOImpl() {
+    public UtilisateurDAOImpl() {
         EntityManagerFactory emf = EntityManagerFactoryProvider.getInstance().get();
         this.em = emf.createEntityManager();
     }
 
     @Override
-    public Employe create(Employe employe) {
+    public Utilisateur create(Utilisateur utilisateur) {
         em.getTransaction().begin();
-        em.persist(employe);
+        em.persist(utilisateur);
         em.getTransaction().commit();
         em.close();
-        return employe;
+        return utilisateur;
     }
 
     @Override
-    public Optional<Employe> get(Integer id) {
-        Optional<Employe> employe = Optional
-                .of(em.find(Employe.class, id));
+    public Optional<Utilisateur> get(Integer id) {
+        Optional<Utilisateur> utilisateur = Optional
+                .empty();
+        em.find(Utilisateur.class, id);
         em.close();
-        return employe;
+        return utilisateur;
     }
 
     @Override
-    public Collection<Employe> getAll() {
-        List<Employe> employeList = em
-                .createNamedQuery("Employe.findAll", Employe.class)
+    public Collection<Utilisateur> getAll() {
+        List<Utilisateur> utilisateurList = em
+                .createQuery("Utilisateur.findAll", Utilisateur.class)
                 .getResultList();
         em.close();
-        return employeList;
+        return utilisateurList;
+
+
     }
 
     @Override
-    public Employe update(Employe employe) {
+    public Utilisateur update(Utilisateur utilisateur) {
         em.getTransaction().begin();
-        Employe updatedEmploye = em.merge(employe);
+        Utilisateur updatedEmploye = em.merge(utilisateur);
         em.getTransaction().commit();
         em.close();
         return updatedEmploye;
     }
 
     @Override
-    public void delete(Employe employe) {
+    public void delete(Utilisateur utilisateur) {
         em.getTransaction().begin();
-        em.remove(employe);
+        em.remove(utilisateur);
         em.getTransaction().commit();
         em.close();
     }
-
 }

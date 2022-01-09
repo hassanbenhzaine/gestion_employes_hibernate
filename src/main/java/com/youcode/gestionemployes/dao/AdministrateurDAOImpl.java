@@ -10,58 +10,54 @@ import java.util.List;
 import java.util.Optional;
 
 public class AdministrateurDAOImpl implements GenericDAO<Administrateur, Integer> {
-    private final EntityManager entityManager;
-    private final String tableName = "administrateurs";
+    private final EntityManager em;
 
     public AdministrateurDAOImpl() {
         EntityManagerFactory emf = EntityManagerFactoryProvider.getInstance().get();
-        this.entityManager = emf.createEntityManager();
+        this.em = emf.createEntityManager();
     }
 
     @Override
-    public void create(Administrateur administrateur) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(administrateur);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+    public Administrateur create(Administrateur administrateur) {
+        em.getTransaction().begin();
+        em.persist(administrateur);
+        em.getTransaction().commit();
+        em.close();
+        return administrateur;
     }
 
     @Override
     public Optional<Administrateur> get(Integer id) {
-        entityManager.getTransaction().begin();
         Optional<Administrateur> administrateur = Optional
-                .of(entityManager.find(Administrateur.class, id));
-        entityManager.getTransaction().commit();
-        entityManager.close();
+                .of(em.find(Administrateur.class, id));
+        em.close();
         return administrateur;
     }
 
     @Override
     public Collection<Administrateur> getAll() {
-        entityManager.getTransaction().begin();
-        List<Administrateur> administrateurList = entityManager
-                .createQuery("SELECT a FROM " + tableName + " a", Administrateur.class)
+        List<Administrateur> administrateurList = em
+                .createQuery("Administrateur.findAll", Administrateur.class)
                 .getResultList();
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        em.close();
         return administrateurList;
     }
 
     @Override
     public Administrateur update(Administrateur administrateur) {
-        entityManager.getTransaction().begin();
-        Administrateur updatedAdministrateur = entityManager.merge(administrateur);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        em.getTransaction().begin();
+        Administrateur updatedAdministrateur = em.merge(administrateur);
+        em.getTransaction().commit();
+        em.close();
         return updatedAdministrateur;
     }
 
     @Override
     public void delete(Administrateur administrateur) {
-        entityManager.getTransaction().begin();
-        entityManager.remove(administrateur);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        em.getTransaction().begin();
+        em.remove(administrateur);
+        em.getTransaction().commit();
+        em.close();
     }
 
 
