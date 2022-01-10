@@ -7,44 +7,33 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 class AdministrateurServiceTest {
-    private static Administrateur administrateur;
     private AdministrateurService administrateurService;
+    private static Administrateur testAdministrateur;
 
     @BeforeAll
     static void beforeAll() {
-        administrateur = Administrateur.builder()
-                .email("cbenhzaine@gmail.com")
-                .password("123456")
-                .firstName("coucou")
-                .lastName("coucou 2")
+        testAdministrateur = Administrateur.builder()
+                .email("email@gmail.com")
+                .password("pass123")
+                .firstName("hassan")
+                .lastName("benhzaine")
                 .dateOfBirth(LocalDate.now())
+                .phone("0612345678")
+                .status(true)
                 .build();
     }
 
     @BeforeEach
     void setUp() {
-        administrateurService = new AdministrateurService();
     }
 
     @Test
     void add() {
-        // given
-        // when
-        administrateurService.add(administrateur);
-        // then
-        assertNotNull(administrateur);
     }
 
     @Test
     void modify() {
-    }
-
-    @Test
-    void delete() {
     }
 
     @Test
@@ -53,14 +42,5 @@ class AdministrateurServiceTest {
 
     @Test
     void getAll() {
-    }
-
-    @Test
-    void login() {
-        // given
-        // when
-        boolean isLoggedIn = administrateurService.login(administrateur);
-        // then
-        assertTrue(isLoggedIn);
     }
 }

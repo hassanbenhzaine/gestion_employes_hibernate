@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class EntityManagerFactoryProvider {
-    private static EntityManagerFactoryProvider emp;
+    private static EntityManagerFactoryProvider instance;
     private final EntityManagerFactory emf;
 
     public EntityManagerFactoryProvider() {
@@ -13,10 +13,10 @@ public class EntityManagerFactoryProvider {
     }
 
     public static EntityManagerFactoryProvider getInstance() {
-        if (emp == null) {
-            emp = new EntityManagerFactoryProvider();
+        if (instance == null) {
+            instance = new EntityManagerFactoryProvider();
         }
-        return emp;
+        return instance;
     }
 
     public EntityManagerFactory get() {

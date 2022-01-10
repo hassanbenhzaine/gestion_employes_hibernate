@@ -30,7 +30,6 @@ public class AdministrateurRepositoryImpl implements AdministrateurRepository {
         return administrateurDAO.get(id);
     }
 
-
     @Override
     public Administrateur update(Administrateur administrateur) {
         return administrateurDAO.update(administrateur);

@@ -33,10 +33,8 @@ public class UtilisateurService {
         return utilisateurRepository.findAll();
     }
 
-
-    public boolean login(Utilisateur utilisateur) {
+    public Utilisateur login(Utilisateur utilisateur) {
         return utilisateurRepository.findByEmailAndPassword(
-                utilisateur.getEmail(), utilisateur.getPassword()
-        ).isPresent();
+                utilisateur.getEmail(), utilisateur.getPassword()).orElse(null);
     }
 }

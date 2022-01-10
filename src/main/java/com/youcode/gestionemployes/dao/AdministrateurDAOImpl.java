@@ -37,7 +37,7 @@ public class AdministrateurDAOImpl implements GenericDAO<Administrateur, Integer
     @Override
     public Collection<Administrateur> getAll() {
         List<Administrateur> administrateurList = em
-                .createQuery("Administrateur.findAll", Administrateur.class)
+                .createNamedQuery("Administrateur.findAll", Administrateur.class)
                 .getResultList();
         em.close();
         return administrateurList;

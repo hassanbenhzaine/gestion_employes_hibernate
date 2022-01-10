@@ -38,7 +38,7 @@ public class UtilisateurDAOImpl implements GenericDAO<Utilisateur, Integer> {
     @Override
     public Collection<Utilisateur> getAll() {
         List<Utilisateur> utilisateurList = em
-                .createQuery("Utilisateur.findAll", Utilisateur.class)
+                .createNamedQuery("Utilisateur.findAll", Utilisateur.class)
                 .getResultList();
         em.close();
         return utilisateurList;

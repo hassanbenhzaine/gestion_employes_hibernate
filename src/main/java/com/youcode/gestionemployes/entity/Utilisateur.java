@@ -15,7 +15,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity(name = "utilisateurs")
 @Inheritance(strategy = InheritanceType.JOINED)
-@NamedQuery(name = "Utilisateur.findAll", query = " SELECT a FROM utilisateurs a")
+@NamedQuery(name = "Utilisateur.findAll", query = "SELECT a FROM utilisateurs a")
+@NamedQuery(name = "Utilisateur.findByEmailAndPassword",
+        query = "SELECT a FROM utilisateurs a WHERE a.email = :email AND a.password = :password")
 public class Utilisateur implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

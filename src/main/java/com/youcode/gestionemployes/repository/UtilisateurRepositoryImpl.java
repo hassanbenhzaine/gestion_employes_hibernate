@@ -3,15 +3,21 @@ package com.youcode.gestionemployes.repository;
 import com.youcode.gestionemployes.dao.GenericDAO;
 import com.youcode.gestionemployes.dao.UtilisateurDAOImpl;
 import com.youcode.gestionemployes.entity.Utilisateur;
+import com.youcode.gestionemployes.shared.EntityManagerFactoryProvider;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
 import java.util.Collection;
 import java.util.Optional;
 
 public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     private final GenericDAO<Utilisateur, Integer> utilisateurDAO;
+    private final EntityManager entityManager;
 
     public UtilisateurRepositoryImpl() {
         this.utilisateurDAO = new UtilisateurDAOImpl();
+        EntityManagerFactory emf = EntityManagerFactoryProvider.getInstance().get();
+        entityManager = emf.createEntityManager();
     }
 
     @Override
@@ -43,8 +49,10 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
     @Override
     public Optional<Utilisateur> findByEmailAndPassword(String email, String password) {
-        return utilisateurDAO.getAll().stream().parallel()
-                .filter(a -> a.getEmail().equals(email) && a.getPassword().equals(password))
-                .findAny();
+        return entityManager
+                .createNamedQuery("Utilisateur.findByEmailAndPassword", Utilisateur.class)
+                .setParameter("email", email)
+                .setParameter("password", password)
+                .getResultList().stream().findFirst();
     }
 }
