@@ -30,10 +30,7 @@ public class DashboardServlet extends HttpServlet {
         context.setVariable("firstName", utilisateur.getFirstName());
         context.setVariable("lastName", utilisateur.getLastName());
         context.setVariable("employes", employeService.getAll());
-        try {
-            te.process("dashboard", context, resp.getWriter());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        te.process("dashboard", context, resp.getWriter());
     }
 }
