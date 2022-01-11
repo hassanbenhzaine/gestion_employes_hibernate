@@ -17,11 +17,14 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-
-        if (req.getSession(false) != null) {
-            chain.doFilter(request, response);
-        } else {
-            resp.sendRedirect("/login");
+        try {
+            if (req.getSession(false) != null) {
+                chain.doFilter(request, response);
+            } else {
+                resp.sendRedirect("/login");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -25,11 +25,15 @@ public class ChangePasswordServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-            Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
-            Context context = new Context();
-            context.setVariable("firstName", utilisateur.getFirstName());
-            context.setVariable("lastName", utilisateur.getLastName());
+        Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
+        Context context = new Context();
+        context.setVariable("firstName", utilisateur.getFirstName());
+        context.setVariable("lastName", utilisateur.getLastName());
+        try {
             te.process("changePassword", context, resp.getWriter());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -39,19 +43,22 @@ public class ChangePasswordServlet extends HttpServlet {
         String newPassword = req.getParameter("password");
         String repeatPassword = req.getParameter("repeatPassword");
         String oldPassword = req.getParameter("oldPassword");
-
-        if (oldPassword.equals(utilisateur.getPassword())) {
-            if (newPassword.equals(repeatPassword)) {
-                utilisateur.setPassword(newPassword);
-                utilisateurService.modify(utilisateur);
-                resp.sendRedirect("/dashboard");
-            } else {
-                context.setVariable("error", "Les nouveaux mots de passe ne correspondent pas");
-                te.process("changePassword", context, resp.getWriter());
+        try {
+            if (oldPassword.equals(utilisateur.getPassword())) {
+                if (newPassword.equals(repeatPassword)) {
+                    utilisateur.setPassword(newPassword);
+                    utilisateurService.modify(utilisateur);
+                    resp.sendRedirect("/dashboard");
+                } else {
+                    context.setVariable("error", "Les nouveaux mots de passe ne correspondent pas");
+                    te.process("changePassword", context, resp.getWriter());
                 }
             } else {
-            context.setVariable("error", "Le mot de passe ne correspondent pas a l'ancien");
-            te.process("changePassword", context, resp.getWriter());
+                context.setVariable("error", "Le mot de passe ne correspondent pas a l'ancien");
+                te.process("changePassword", context, resp.getWriter());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

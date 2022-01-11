@@ -34,24 +34,31 @@ public class LoginServlet extends HttpServlet {
                 .compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Pattern passwordPattern = Pattern
                 .compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", Pattern.CASE_INSENSITIVE);
-
-        if (!emailPattern.matcher(email).matches() && !passwordPattern.matcher(password).matches()) {
-            context.setVariable("error", "Email ou mot de passe invalide");
-            te.process("login", context, resp.getWriter());
-        } else {
-            Utilisateur utilisateur = utilisateurService.findByEmail(email);
-            if (utilisateur != null && utilisateur.getPassword().equals(password)) {
-                req.getSession().setAttribute("utilisateur", utilisateur);
-                resp.sendRedirect("/dashboard");
-            } else {
-                context.setVariable("error", "Email ou mot de passe incorrect");
+        try {
+            if (!emailPattern.matcher(email).matches() && !passwordPattern.matcher(password).matches()) {
+                context.setVariable("error", "Email ou mot de passe invalide");
                 te.process("login", context, resp.getWriter());
+            } else {
+                Utilisateur utilisateur = utilisateurService.findByEmail(email);
+                if (utilisateur != null && utilisateur.getPassword().equals(password)) {
+                    req.getSession().setAttribute("utilisateur", utilisateur);
+                    resp.sendRedirect("/dashboard");
+                } else {
+                    context.setVariable("error", "Email ou mot de passe incorrect");
+                    te.process("login", context, resp.getWriter());
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        te.process("login", new Context(), resp.getWriter());
+        try {
+            te.process("login", new Context(), resp.getWriter());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
