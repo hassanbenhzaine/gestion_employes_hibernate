@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface GenericDAO<T, PK extends Serializable> {
-    T create(T t);
+    T save(T t);
 
-    Optional<T> get(PK id);
+    Optional<T> findById(PK id);
 
-    Collection<T> getAll();
+    Collection<T> findAll();
 
     T update(T t);
 

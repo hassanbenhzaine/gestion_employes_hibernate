@@ -1,58 +1,74 @@
 package com.youcode.gestionemployes.repository;
 
-import com.youcode.gestionemployes.dao.GenericDAO;
-import com.youcode.gestionemployes.dao.UtilisateurDAOImpl;
 import com.youcode.gestionemployes.entity.Utilisateur;
-import com.youcode.gestionemployes.shared.EntityManagerFactoryProvider;
+import com.youcode.gestionemployes.shared.PersistenceManager;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public class UtilisateurRepositoryImpl implements UtilisateurRepository {
-    private final GenericDAO<Utilisateur, Integer> utilisateurDAO;
-    private final EntityManager entityManager;
-
-    public UtilisateurRepositoryImpl() {
-        this.utilisateurDAO = new UtilisateurDAOImpl();
-        EntityManagerFactory emf = EntityManagerFactoryProvider.getInstance().get();
-        entityManager = emf.createEntityManager();
-    }
+    private final EntityManagerFactory emf = PersistenceManager.getEntityManagerFactory();
 
     @Override
     public Utilisateur save(Utilisateur utilisateur) {
-        utilisateurDAO.create(utilisateur);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(utilisateur);
+        em.getTransaction().commit();
+        em.close();
+        return utilisateur;
+    }
+
+    @Override
+    public Optional<Utilisateur> findById(Integer id) {
+        EntityManager em = emf.createEntityManager();
+        Optional<Utilisateur> utilisateur = Optional
+                .empty();
+        em.find(Utilisateur.class, id);
+        em.close();
         return utilisateur;
     }
 
     @Override
     public Collection<Utilisateur> findAll() {
-        return utilisateurDAO.getAll();
+        EntityManager em = emf.createEntityManager();
+        List<Utilisateur> utilisateurList = em
+                .createNamedQuery("Utilisateur.findAll", Utilisateur.class)
+                .getResultList();
+        em.close();
+        return utilisateurList;
     }
-
-    @Override
-    public Optional<Utilisateur> findById(Integer id) {
-        return utilisateurDAO.get(id);
-    }
-
 
     @Override
     public Utilisateur update(Utilisateur utilisateur) {
-        return utilisateurDAO.update(utilisateur);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Utilisateur updatedEmploye = em.merge(utilisateur);
+        em.getTransaction().commit();
+        em.close();
+        return updatedEmploye;
     }
 
     @Override
     public void delete(Utilisateur utilisateur) {
-        utilisateurDAO.delete(utilisateur);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.remove(utilisateur);
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
     public Optional<Utilisateur> findByEmailAndPassword(String email, String password) {
-        return entityManager
-                .createNamedQuery("Utilisateur.findByEmailAndPassword", Utilisateur.class)
+        EntityManager em = emf.createEntityManager();
+        Optional<Utilisateur> utilisateur = em.createNamedQuery("Utilisateur.findByEmailAndPassword", Utilisateur.class)
                 .setParameter("email", email)
                 .setParameter("password", password)
                 .getResultList().stream().findFirst();
+        em.close();
+        return utilisateur;
     }
 }

@@ -1,6 +1,6 @@
 package com.youcode.gestionemployes.web.controller;
 
-import com.youcode.gestionemployes.shared.TemplateResolverProvider;
+import com.youcode.gestionemployes.shared.TemplateEngineProvider;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,8 +16,7 @@ public class LogoutServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig servletConfig) {
-        te = new TemplateEngine();
-        te.setTemplateResolver(TemplateResolverProvider.getInstance().get());
+        te = TemplateEngineProvider.getTemplateEngine();
     }
 
     @Override

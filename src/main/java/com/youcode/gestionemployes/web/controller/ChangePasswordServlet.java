@@ -2,7 +2,7 @@ package com.youcode.gestionemployes.web.controller;
 
 import com.youcode.gestionemployes.entity.Utilisateur;
 import com.youcode.gestionemployes.metier.UtilisateurService;
-import com.youcode.gestionemployes.shared.TemplateResolverProvider;
+import com.youcode.gestionemployes.shared.TemplateEngineProvider;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,8 +20,7 @@ public class ChangePasswordServlet extends HttpServlet {
     @Override
     public void init() {
         utilisateurService = new UtilisateurService();
-        te = new TemplateEngine();
-        te.setTemplateResolver(TemplateResolverProvider.getInstance().get());
+        te = TemplateEngineProvider.getTemplateEngine();
     }
 
     @Override

@@ -1,23 +1,18 @@
 package com.youcode.gestionemployes.web.controller;
 
+import jakarta.servlet.GenericServlet;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
 @WebServlet("/test")
-public class TestServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        RequestDispatcher rd = req.getRequestDispatcher()
-        resp.sendError(401, "Unauthorized");
-    }
+public class TestServlet extends GenericServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+    public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+
     }
 }

@@ -2,7 +2,7 @@ package com.youcode.gestionemployes.web.controller;
 
 import com.youcode.gestionemployes.entity.Utilisateur;
 import com.youcode.gestionemployes.metier.UtilisateurService;
-import com.youcode.gestionemployes.shared.TemplateResolverProvider;
+import com.youcode.gestionemployes.shared.TemplateEngineProvider;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +13,7 @@ import org.thymeleaf.context.Context;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/login"})
+@WebServlet(urlPatterns = {"/login", ""})
 public class LoginServlet extends HttpServlet {
     private UtilisateurService utilisateurService;
     private TemplateEngine te;
@@ -21,8 +21,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void init(ServletConfig servletConfig) {
         utilisateurService = new UtilisateurService();
-        te = new TemplateEngine();
-        te.setTemplateResolver(TemplateResolverProvider.getInstance().get());
+        te = TemplateEngineProvider.getTemplateEngine();
     }
 
     @Override

@@ -1,43 +1,63 @@
 package com.youcode.gestionemployes.repository;
 
-import com.youcode.gestionemployes.dao.EmployeeDAOImpl;
-import com.youcode.gestionemployes.dao.GenericDAO;
 import com.youcode.gestionemployes.entity.Employe;
+import com.youcode.gestionemployes.shared.PersistenceManager;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public class EmployeRepositoryImpl implements EmployeRepository {
-    private final GenericDAO<Employe, Integer> employeDAO;
-
-    public EmployeRepositoryImpl() {
-        this.employeDAO = new EmployeeDAOImpl();
-    }
+    private final EntityManagerFactory emf = PersistenceManager.getEntityManagerFactory();
 
     @Override
     public Employe save(Employe employe) {
-        employeDAO.create(employe);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(employe);
+        em.getTransaction().commit();
+        em.close();
+        return employe;
+    }
+
+    @Override
+    public Optional<Employe> findById(Integer id) {
+        EntityManager em = emf.createEntityManager();
+        Optional<Employe> employe = Optional
+                .empty();
+        em.find(Employe.class, id);
+        em.close();
         return employe;
     }
 
     @Override
     public Collection<Employe> findAll() {
-        return employeDAO.getAll();
+        EntityManager em = emf.createEntityManager();
+        List<Employe> employeList = em
+                .createNamedQuery("Employe.findAll", Employe.class)
+                .getResultList();
+        em.close();
+        return employeList;
     }
-
-    @Override
-    public Optional<Employe> findById(Integer id) {
-        return employeDAO.get(id);
-    }
-
 
     @Override
     public Employe update(Employe employe) {
-        return employeDAO.update(employe);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Employe updatedEmploye = em.merge(employe);
+        em.getTransaction().commit();
+        em.close();
+        return updatedEmploye;
     }
 
     @Override
     public void delete(Employe employe) {
-        employeDAO.delete(employe);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.remove(employe);
+        em.getTransaction().commit();
+        em.close();
     }
 }
