@@ -12,7 +12,7 @@ import org.thymeleaf.context.Context;
 
 import java.io.IOException;
 
-@WebServlet("/changepassword")
+@WebServlet(name = "ChangePasswordServlet", value = "/changepassword")
 public class ChangePasswordServlet extends HttpServlet {
     private UtilisateurService utilisateurService;
     private TemplateEngine te;
@@ -25,41 +25,33 @@ public class ChangePasswordServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (req.getSession(false) != null) {
             Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
             Context context = new Context();
             context.setVariable("firstName", utilisateur.getFirstName());
             context.setVariable("lastName", utilisateur.getLastName());
             te.process("changePassword", context, resp.getWriter());
-        } else {
-            resp.sendRedirect("/login");
-        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Context context = new Context();
+        Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
+        String newPassword = req.getParameter("password");
+        String repeatPassword = req.getParameter("repeatPassword");
+        String oldPassword = req.getParameter("oldPassword");
 
-        if (req.getSession(false) != null) {
-            Context context = new Context();
-            Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
-            String newPassword = req.getParameter("newPassword");
-            String repeatPassword = req.getParameter("repeatPassword");
-            String oldPassword = req.getParameter("oldPassword");
-
-            if (oldPassword.equals(utilisateur.getPassword())) {
-                if (newPassword.equals(repeatPassword)) {
-                    utilisateur.setPassword(newPassword);
-                    utilisateurService.modify(utilisateur);
-                    resp.sendRedirect("/dashboard");
-                } else {
-                    context.setVariable("error", "Les mots de passe ne correspondent pas");
-                    te.process("changePassword", context, resp.getWriter());
+        if (oldPassword.equals(utilisateur.getPassword())) {
+            if (newPassword.equals(repeatPassword)) {
+                utilisateur.setPassword(newPassword);
+                utilisateurService.modify(utilisateur);
+                resp.sendRedirect("/dashboard");
+            } else {
+                context.setVariable("error", "Les nouveaux mots de passe ne correspondent pas");
+                te.process("changePassword", context, resp.getWriter());
                 }
             } else {
-                resp.sendRedirect("/changepassword");
-            }
-        } else {
-            resp.sendRedirect("/login");
+            context.setVariable("error", "Le mot de passe ne correspondent pas a l'ancien");
+            te.process("changePassword", context, resp.getWriter());
         }
     }
 }

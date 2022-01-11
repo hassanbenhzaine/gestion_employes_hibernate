@@ -10,7 +10,7 @@ import org.thymeleaf.TemplateEngine;
 
 import java.io.IOException;
 
-@WebServlet("/logout")
+@WebServlet(name = "LogoutServlet", value = "/logout")
 public class LogoutServlet extends HttpServlet {
     private TemplateEngine te;
 

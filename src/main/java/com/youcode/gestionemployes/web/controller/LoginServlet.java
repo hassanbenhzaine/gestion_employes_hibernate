@@ -12,8 +12,9 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
-@WebServlet(urlPatterns = {"/login", ""})
+@WebServlet(name = "LoginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
     private UtilisateurService utilisateurService;
     private TemplateEngine te;
@@ -26,28 +27,31 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Utilisateur utilisateur = Utilisateur.builder()
-                .email(req.getParameter("email"))
-                .password(req.getParameter("password"))
-                .build();
-        utilisateur = utilisateurService.login(utilisateur);
+        Context context = new Context();
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        Pattern emailPattern = Pattern
+                .compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Pattern passwordPattern = Pattern
+                .compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", Pattern.CASE_INSENSITIVE);
 
-        if (utilisateur != null) {
-            req.getSession().setAttribute("utilisateur", utilisateur);
-            resp.sendRedirect("/dashboard");
-        } else {
-            Context context = new Context();
-            context.setVariable("error", "Email ou mot de passe incorrect");
+        if (!emailPattern.matcher(email).matches() && !passwordPattern.matcher(password).matches()) {
+            context.setVariable("error", "Email ou mot de passe invalide");
             te.process("login", context, resp.getWriter());
+        } else {
+            Utilisateur utilisateur = utilisateurService.findByEmail(email);
+            if (utilisateur != null && utilisateur.getPassword().equals(password)) {
+                req.getSession().setAttribute("utilisateur", utilisateur);
+                resp.sendRedirect("/dashboard");
+            } else {
+                context.setVariable("error", "Email ou mot de passe incorrect");
+                te.process("login", context, resp.getWriter());
+            }
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (req.getSession(false) != null) {
-            resp.sendRedirect("/dashboard");
-        } else {
-            te.process("login", new Context(), resp.getWriter());
-        }
+        te.process("login", new Context(), resp.getWriter());
     }
 }

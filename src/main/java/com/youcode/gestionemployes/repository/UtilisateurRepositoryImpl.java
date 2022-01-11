@@ -62,11 +62,10 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     }
 
     @Override
-    public Optional<Utilisateur> findByEmailAndPassword(String email, String password) {
+    public Optional<Utilisateur> findByEmail(String email) {
         EntityManager em = emf.createEntityManager();
-        Optional<Utilisateur> utilisateur = em.createNamedQuery("Utilisateur.findByEmailAndPassword", Utilisateur.class)
+        Optional<Utilisateur> utilisateur = em.createNamedQuery("Utilisateur.findByEmail", Utilisateur.class)
                 .setParameter("email", email)
-                .setParameter("password", password)
                 .getResultList().stream().findFirst();
         em.close();
         return utilisateur;

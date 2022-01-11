@@ -17,7 +17,33 @@
     </nav>
 </header>
 <main>
-    main
+    <table>
+        <tr>
+            <th>id</th>
+            <th>firstName</th>
+            <th>lastName</th>
+            <th>dateOfBirth</th>
+            <th>phone</th>
+            <th>status</th>
+            <th>matricule</th>
+            <th>matricule</th>
+            <th>operations</th>
+        </tr>
+        <tr th:each="employe: ${employes}">
+            <td th:text="${employe.id}"/>
+            <td th:text="${employe.firstName}"/>
+            <td th:text="${employe.lastName}"/>
+            <td th:text="${employe.dateOfBirth}"/>
+            <td th:text="${employe.phone}"/>
+            <td th:text="${employe.status}"/>
+            <td th:text="${employe.matricule}"/>
+            <td th:text="${employe.salaire}"/>
+            <td><a href=""</td>
+            >
+        </tr>
+
+
+    </table>
 </main>
 </body>
 </html>
