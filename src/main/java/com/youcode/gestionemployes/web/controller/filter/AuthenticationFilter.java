@@ -7,11 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebFilter(filterName = "AuthenticationFilter", servletNames = {"LogoutServlet", "DashboardServlet", "ChangePasswordServlet"})
+@WebFilter(filterName = "AuthenticationFilter",
+        servletNames = {"LogoutServlet", "ManageEmployesServlet", "ChangePasswordServlet", "DeleteEmployeServlet",
+                "EditEmployeServlet", "AddEmployeServlet"})
 public class AuthenticationFilter implements Filter {
-    @Override
-    public void init(FilterConfig filterConfig) {
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

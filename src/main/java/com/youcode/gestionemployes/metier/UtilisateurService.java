@@ -13,11 +13,11 @@ public class UtilisateurService {
         utilisateurRepository = new UtilisateurRepositoryImpl();
     }
 
-    public Utilisateur add(Utilisateur utilisateur) {
+    public Utilisateur save(Utilisateur utilisateur) {
         return utilisateurRepository.save(utilisateur);
     }
 
-    public Utilisateur modify(Utilisateur utilisateur) {
+    public Utilisateur update(Utilisateur utilisateur) {
         return utilisateurRepository.update(utilisateur);
     }
 
@@ -25,11 +25,11 @@ public class UtilisateurService {
         utilisateurRepository.delete(utilisateur);
     }
 
-    public Utilisateur get(Integer id) {
+    public Utilisateur findById(Integer id) {
         return utilisateurRepository.findById(id).orElse(null);
     }
 
-    public Collection<? extends Utilisateur> getAll() {
+    public Collection<? extends Utilisateur> findAll() {
         return utilisateurRepository.findAll();
     }
 

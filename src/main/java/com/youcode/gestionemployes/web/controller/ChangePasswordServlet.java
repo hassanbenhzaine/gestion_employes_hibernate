@@ -12,14 +12,13 @@ import org.thymeleaf.context.Context;
 
 import java.io.IOException;
 
-@WebServlet(name = "ChangePasswordServlet", value = "/changepassword")
+@WebServlet(name = "ChangePasswordServlet", value = "/change-password")
 public class ChangePasswordServlet extends HttpServlet {
     private UtilisateurService utilisateurService;
     private TemplateEngine te;
 
     @Override
     public void init() {
-        utilisateurService = new UtilisateurService();
         te = TemplateEngineProvider.getTemplateEngine();
     }
 
@@ -34,6 +33,7 @@ public class ChangePasswordServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        utilisateurService = new UtilisateurService();
         Context context = new Context();
         Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
         String newPassword = req.getParameter("password");
@@ -43,8 +43,8 @@ public class ChangePasswordServlet extends HttpServlet {
         if (oldPassword.equals(utilisateur.getPassword())) {
             if (newPassword.equals(repeatPassword)) {
                 utilisateur.setPassword(newPassword);
-                utilisateurService.modify(utilisateur);
-                resp.sendRedirect("/dashboard");
+                utilisateurService.update(utilisateur);
+                resp.sendRedirect("/manage-employes");
             } else {
                 context.setVariable("error", "Les nouveaux mots de passe ne correspondent pas");
                 te.process("changePassword", context, resp.getWriter());

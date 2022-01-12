@@ -32,7 +32,7 @@ class EmployeServiceTest {
     void add() {
         // given
         // when
-        employeService.add(testEmploye);
+        employeService.save(testEmploye);
         // then
 //        assertTrue(testEmploye.getId() > 0);
     }
@@ -40,11 +40,11 @@ class EmployeServiceTest {
     @Test
     void modify() {
         // given
-        testEmploye = employeService.getAll().stream().findAny().orElse(null);
+        testEmploye = employeService.findAll().stream().findAny().orElse(null);
 //        testEmploye.setMatricule("AE00011");
 //        testEmploye.setPassword("pass1234");
         // when
-        employeService.modify(testEmploye);
+        employeService.update(testEmploye);
         // then
         assertTrue(testEmploye.getMatricule().equals("AE00011")
                 && testEmploye.getPassword().equals("pass1234"));
@@ -58,6 +58,6 @@ class EmployeServiceTest {
     void getAll() {
         // given
         // when
-        employeService.getAll();
+        employeService.findAll();
     }
 }

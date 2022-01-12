@@ -14,23 +14,29 @@ public class EmployeService extends UtilisateurService {
         employeRepository = new EmployeRepositoryImpl();
     }
 
+
     @Override
-    public Employe add(Utilisateur employe) {
+    public void delete(Utilisateur employe) {
+        employeRepository.delete((Employe) employe);
+    }
+
+    @Override
+    public Employe save(Utilisateur employe) {
         return employeRepository.save((Employe) employe);
     }
 
     @Override
-    public Employe modify(Utilisateur employe) {
+    public Employe update(Utilisateur employe) {
         return employeRepository.update((Employe) employe);
     }
 
     @Override
-    public Employe get(Integer id) {
+    public Employe findById(Integer id) {
         return employeRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Collection<Employe> getAll() {
+    public Collection<Employe> findAll() {
         return employeRepository.findAll();
     }
 

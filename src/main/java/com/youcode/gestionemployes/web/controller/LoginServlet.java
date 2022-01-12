@@ -21,12 +21,12 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig servletConfig) {
-        utilisateurService = new UtilisateurService();
         te = TemplateEngineProvider.getTemplateEngine();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        utilisateurService = new UtilisateurService();
         Context context = new Context();
         String email = req.getParameter("email");
         String password = req.getParameter("password");
@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
             Utilisateur utilisateur = utilisateurService.findByEmail(email);
             if (utilisateur != null && utilisateur.getPassword().equals(password)) {
                 req.getSession().setAttribute("utilisateur", utilisateur);
-                resp.sendRedirect("/dashboard");
+                resp.sendRedirect("/manage-employes");
             } else {
                 context.setVariable("error", "Email ou mot de passe incorrect");
                 te.process("login", context, resp.getWriter());

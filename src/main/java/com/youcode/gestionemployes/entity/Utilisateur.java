@@ -31,6 +31,7 @@ public class Utilisateur implements Serializable {
     private String password;
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
+    @Column
     private String phone;
     @Column(columnDefinition = "boolean default false")
     private Boolean status;

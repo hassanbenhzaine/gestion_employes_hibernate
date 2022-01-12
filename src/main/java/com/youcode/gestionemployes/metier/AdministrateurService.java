@@ -15,22 +15,27 @@ public class AdministrateurService extends UtilisateurService {
     }
 
     @Override
-    public Administrateur add(Utilisateur administrateur) {
+    public void delete(Utilisateur administrateur) {
+        administrateurRepository.delete((Administrateur) administrateur);
+    }
+
+    @Override
+    public Administrateur save(Utilisateur administrateur) {
         return administrateurRepository.save((Administrateur) administrateur);
     }
 
     @Override
-    public Administrateur modify(Utilisateur administrateur) {
+    public Administrateur update(Utilisateur administrateur) {
         return administrateurRepository.update((Administrateur) administrateur);
     }
 
     @Override
-    public Administrateur get(Integer id) {
+    public Administrateur findById(Integer id) {
         return administrateurRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Collection<Administrateur> getAll() {
+    public Collection<Administrateur> findAll() {
         return administrateurRepository.findAll();
     }
 

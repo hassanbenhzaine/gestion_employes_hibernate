@@ -25,9 +25,7 @@ public class EmployeRepositoryImpl implements EmployeRepository {
     @Override
     public Optional<Employe> findById(Integer id) {
         EntityManager em = emf.createEntityManager();
-        Optional<Employe> employe = Optional
-                .empty();
-        em.find(Employe.class, id);
+        Optional<Employe> employe = Optional.ofNullable(em.find(Employe.class, id));
         em.close();
         return employe;
     }
@@ -56,7 +54,7 @@ public class EmployeRepositoryImpl implements EmployeRepository {
     public void delete(Employe employe) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        em.remove(employe);
+        em.remove(em.contains(employe) ? employe : em.merge(employe));
         em.getTransaction().commit();
         em.close();
     }

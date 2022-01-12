@@ -25,9 +25,7 @@ public class AdministrateurRepositoryImpl implements AdministrateurRepository {
     @Override
     public Optional<Administrateur> findById(Integer id) {
         EntityManager em = emf.createEntityManager();
-        Optional<Administrateur> administrateur = Optional
-                .empty();
-        em.find(Administrateur.class, id);
+        Optional<Administrateur> administrateur = Optional.ofNullable(em.find(Administrateur.class, id));
         em.close();
         return administrateur;
     }
@@ -56,7 +54,7 @@ public class AdministrateurRepositoryImpl implements AdministrateurRepository {
     public void delete(Administrateur administrateur) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        em.remove(administrateur);
+        em.remove(em.contains(administrateur) ? administrateur : em.merge(administrateur));
         em.getTransaction().commit();
         em.close();
     }

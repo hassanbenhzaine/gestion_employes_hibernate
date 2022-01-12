@@ -16,7 +16,7 @@ class UtilisateurServiceTest {
 
     @BeforeAll
     static void beforeAll() {
-        randomUtilisateur = new UtilisateurService().getAll()
+        randomUtilisateur = new UtilisateurService().findAll()
                 .stream().parallel().findAny().orElse(null);
     }
 
@@ -38,8 +38,8 @@ class UtilisateurServiceTest {
     void add() {
         // given
         // when
-        utilisateurService.add(testUtilisateur);
-        Utilisateur retreivedUtilisateur = utilisateurService.get(testUtilisateur.getId());
+        utilisateurService.save(testUtilisateur);
+        Utilisateur retreivedUtilisateur = utilisateurService.findById(testUtilisateur.getId());
         // then
         assertEquals(testUtilisateur, retreivedUtilisateur);
     }
@@ -52,7 +52,7 @@ class UtilisateurServiceTest {
     void get() {
         // given
         // when
-        Utilisateur utilisateur = utilisateurService.get(randomUtilisateur.getId());
+        Utilisateur utilisateur = utilisateurService.findById(randomUtilisateur.getId());
         // then
         assertEquals(randomUtilisateur, utilisateur);
     }
@@ -61,7 +61,7 @@ class UtilisateurServiceTest {
     void getAll() {
         //given
         //when
-        int size = utilisateurService.getAll().size();
+        int size = utilisateurService.findAll().size();
         //then
         assertTrue(size > 0);
     }
@@ -82,6 +82,6 @@ class UtilisateurServiceTest {
         // when
         utilisateurService.delete(randomUtilisateur);
         // then
-        assertNull(utilisateurService.get(randomUtilisateur.getId()));
+        assertNull(utilisateurService.findById(randomUtilisateur.getId()));
     }
 }

@@ -25,9 +25,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     @Override
     public Optional<Utilisateur> findById(Integer id) {
         EntityManager em = emf.createEntityManager();
-        Optional<Utilisateur> utilisateur = Optional
-                .empty();
-        em.find(Utilisateur.class, id);
+        Optional<Utilisateur> utilisateur = Optional.ofNullable(em.find(Utilisateur.class, id));
         em.close();
         return utilisateur;
     }
@@ -56,7 +54,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     public void delete(Utilisateur utilisateur) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        em.remove(utilisateur);
+        em.remove(em.contains(utilisateur) ? utilisateur : em.merge(utilisateur));
         em.getTransaction().commit();
         em.close();
     }
