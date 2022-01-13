@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(filterName = "AuthenticationFilter",
-        servletNames = {"LogoutServlet", "ManageEmployesServlet", "ChangePasswordServlet", "DeleteEmployeServlet",
-                "EditEmployeServlet", "AddEmployeServlet"})
+        servletNames = {"LogoutServlet", "ManageEmployesServlet", "ChangePasswordServlet",
+                "DeleteEmployeServlet", "EditEmployeServlet", "AddEmployeServlet"})
 public class AuthenticationFilter implements Filter {
 
     @Override
@@ -22,9 +22,5 @@ public class AuthenticationFilter implements Filter {
         } else {
             resp.sendRedirect("/login");
         }
-    }
-
-    @Override
-    public void destroy() {
     }
 }

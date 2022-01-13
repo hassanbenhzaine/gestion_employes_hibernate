@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @SuperBuilder
@@ -35,4 +36,7 @@ public class Utilisateur implements Serializable {
     private String phone;
     @Column(columnDefinition = "boolean default false")
     private Boolean status;
+
+    @OneToMany
+    private List<Adresse> adresses;
 }

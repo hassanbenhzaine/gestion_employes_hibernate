@@ -35,7 +35,7 @@ class UtilisateurServiceTest {
     }
 
     @Test
-    void add() {
+    void save() {
         // given
         // when
         utilisateurService.save(testUtilisateur);
@@ -45,35 +45,7 @@ class UtilisateurServiceTest {
     }
 
     @Test
-    void modify() {
-    }
-
-    @Test
-    void get() {
-        // given
-        // when
-        Utilisateur utilisateur = utilisateurService.findById(randomUtilisateur.getId());
-        // then
-        assertEquals(randomUtilisateur, utilisateur);
-    }
-
-    @Test
-    void getAll() {
-        //given
-        //when
-        int size = utilisateurService.findAll().size();
-        //then
-        assertTrue(size > 0);
-    }
-
-    @Test
-    void login() {
-        // given
-
-        // when
-//        boolean isLoggedIn = utilisateurService.login(testUtilisateur);
-        // then
-//        assertTrue(isLoggedIn);
+    void update() {
     }
 
     @Test
@@ -83,5 +55,32 @@ class UtilisateurServiceTest {
         utilisateurService.delete(randomUtilisateur);
         // then
         assertNull(utilisateurService.findById(randomUtilisateur.getId()));
+    }
+
+    @Test
+    void findById() {
+        // given
+        // when
+        Utilisateur utilisateur = utilisateurService.findById(randomUtilisateur.getId());
+        // then
+        assertEquals(randomUtilisateur, utilisateur);
+    }
+
+    @Test
+    void findAll() {
+        //given
+        //when
+        int size = utilisateurService.findAll().size();
+        //then
+        assertTrue(size > 0);
+    }
+
+    @Test
+    void findByEmail() {
+        // given
+        // when
+        Utilisateur utilisateur = utilisateurService.findByEmail(randomUtilisateur.getEmail());
+        // then
+        assertEquals(randomUtilisateur, utilisateur);
     }
 }
