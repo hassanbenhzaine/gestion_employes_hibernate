@@ -8,7 +8,7 @@
 <body>
 <header>
     <nav>
-        <div>Bonjour <span th:text="${firstName + lastName}"></span></div>
+        <div>Bonjour <span th:text="${firstName} +' '+ ${lastName}"></span>,</div>
         <ul>
             <li><a href="/logout">Logout</a></li>
             <li><a href="/change-password">Change password</a></li>
