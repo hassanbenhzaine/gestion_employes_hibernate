@@ -8,8 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
-
 @Data
 @SuperBuilder
 @AllArgsConstructor
@@ -17,7 +15,7 @@ import java.io.Serializable;
 @Entity(name = "administrateurs")
 @PrimaryKeyJoinColumn(name = "administrateur_id")
 @NamedQuery(name = "Administrateur.findAll", query = " SELECT a FROM administrateurs a")
-public class Administrateur extends Utilisateur implements Serializable {
+public class Administrateur extends Utilisateur {
     private String xccc;
 
     @Override

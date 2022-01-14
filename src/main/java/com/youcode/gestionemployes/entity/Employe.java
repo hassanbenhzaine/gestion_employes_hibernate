@@ -9,8 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
-
 @Data
 @SuperBuilder
 @AllArgsConstructor
@@ -18,7 +16,7 @@ import java.io.Serializable;
 @Entity(name = "employes")
 @PrimaryKeyJoinColumn(name = "employe_id")
 @NamedQuery(name = "Employe.findAll", query = " SELECT a FROM employes a")
-public class Employe extends Utilisateur implements Serializable {
+public class Employe extends Utilisateur {
     @Column(unique = true)
     private String matricule;
     private Double salaire;
