@@ -62,9 +62,9 @@ class EmployeServiceTest {
             foundEmploye.setMatricule("AB" + new Random().nextInt(0, 999999));
         }
         // when
-        Employe returnedEmploye = employeService.update(foundEmploye);
+        Employe updatedUtilisateur = employeService.update(foundEmploye);
         // then
-        assertEquals(foundEmploye, returnedEmploye);
+        assertEquals(foundEmploye, updatedUtilisateur);
     }
 
     @Test
@@ -90,7 +90,7 @@ class EmployeServiceTest {
     @Test
     void findAll() {
         //given
-        employeService.save(employe);
+        Employe savedEmploye = employeService.save(employe);
         //when
         Collection<? extends Employe> foundEmployeList = employeService.findAll();
         //then

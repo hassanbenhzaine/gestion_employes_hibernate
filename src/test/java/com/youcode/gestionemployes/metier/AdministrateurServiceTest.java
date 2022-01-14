@@ -61,9 +61,9 @@ class AdministrateurServiceTest {
             foundAdministrateur.setXccc("abcd");
         }
         // when
-        Administrateur returnedAdministrateur = administrateurService.update(foundAdministrateur);
+        Administrateur updatedUtilisateur = administrateurService.update(foundAdministrateur);
         // then
-        assertEquals(foundAdministrateur, returnedAdministrateur);
+        assertEquals(foundAdministrateur, updatedUtilisateur);
     }
 
     @Test

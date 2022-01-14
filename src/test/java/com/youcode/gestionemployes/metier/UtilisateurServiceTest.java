@@ -62,9 +62,9 @@ class UtilisateurServiceTest {
             ));
         }
         // when
-        Utilisateur returnedUtilisateur = utilisateurService.update(foundUtilisateur);
+        Utilisateur updatedUtilisateur = utilisateurService.update(foundUtilisateur);
         // then
-        assertEquals(foundUtilisateur, returnedUtilisateur);
+        assertEquals(foundUtilisateur, updatedUtilisateur);
     }
 
     @Test
@@ -100,10 +100,10 @@ class UtilisateurServiceTest {
     @Test
     void findByEmail() {
         //given
-        utilisateurService.save(utilisateur);
+        Utilisateur savedUtilisateur = utilisateurService.save(utilisateur);
         // when
         Utilisateur foundUtilisateur = utilisateurService.findByEmail(utilisateur.getEmail());
         // then
-        assertEquals(utilisateur.getEmail(), foundUtilisateur.getEmail());
+        assertEquals(savedUtilisateur.getEmail(), foundUtilisateur.getEmail());
     }
 }
