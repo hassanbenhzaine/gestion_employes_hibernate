@@ -14,7 +14,6 @@ public class EmployeService extends UtilisateurService {
         employeRepository = new EmployeRepositoryImpl();
     }
 
-
     @Override
     public void delete(Utilisateur employe) {
         employeRepository.delete((Employe) employe);

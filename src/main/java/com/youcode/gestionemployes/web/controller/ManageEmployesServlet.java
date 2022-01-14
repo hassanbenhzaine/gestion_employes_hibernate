@@ -14,7 +14,7 @@ import org.thymeleaf.context.Context;
 import java.io.IOException;
 import java.util.Collection;
 
-@WebServlet(name = "ManageEmployes", value = "/manage-employes")
+@WebServlet(name = "ManageEmployesServlet", value = "/manage-employes")
 public class ManageEmployesServlet extends HttpServlet {
     private EmployeService employeService;
     private TemplateEngine te;

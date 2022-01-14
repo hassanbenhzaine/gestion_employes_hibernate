@@ -1,36 +1,43 @@
 package com.youcode.gestionemployes.metier;
 
 import com.youcode.gestionemployes.entity.Utilisateur;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.Random.class)
 class UtilisateurServiceTest {
-    private static Utilisateur randomUtilisateur;
     private UtilisateurService utilisateurService;
-    private Utilisateur testUtilisateur;
-
-    @BeforeAll
-    static void beforeAll() {
-        randomUtilisateur = new UtilisateurService().findAll()
-                .stream().parallel().findAny().orElse(null);
-    }
+    private Utilisateur utilisateur;
 
     @BeforeEach
     void setUp() {
-        this.utilisateurService = new UtilisateurService();
-        testUtilisateur = Utilisateur.builder()
-                .email("email@gmail.com")
-                .password("pass123")
-                .firstName("hassan")
-                .lastName("benhzaine")
-                .dateOfBirth(LocalDate.now())
-                .phone("0612345678")
-                .status(true)
+        utilisateurService = new UtilisateurService();
+        utilisateur = Utilisateur.builder()
+                .email("example".concat(
+                        String.valueOf(new Random().nextInt(0, 9999))
+                ) + "@mail.com")
+                .password("passwd".concat(
+                        String.valueOf(new Random().nextInt(100, 999))
+                ))
+                .firstName("firstName")
+                .lastName("lastName")
+                .dateOfBirth(LocalDate.of(
+                        new Random().nextInt(1950, 2021),
+                        new Random().nextInt(1, 12),
+                        new Random().nextInt(1, 28)
+                ))
+                .phone("06".concat(
+                        String.valueOf(new Random().nextInt(0, 99999999))
+                ))
+                .status(new Random().nextBoolean())
                 .build();
     }
 
@@ -38,49 +45,65 @@ class UtilisateurServiceTest {
     void save() {
         // given
         // when
-        utilisateurService.save(testUtilisateur);
-        Utilisateur retreivedUtilisateur = utilisateurService.findById(testUtilisateur.getId());
+        Utilisateur savedUtilisateur = utilisateurService.save(utilisateur);
         // then
-        assertEquals(testUtilisateur, retreivedUtilisateur);
+        assertEquals(savedUtilisateur, utilisateurService.findById(savedUtilisateur.getId()));
     }
 
     @Test
     void update() {
+        // given
+        Utilisateur foundUtilisateur = utilisateurService.findAll().stream()
+                .findAny().orElse(null);
+        if (foundUtilisateur != null) {
+            foundUtilisateur.setLastName("newLastName");
+            foundUtilisateur.setPassword("passwd".concat(
+                    String.valueOf(new Random().nextInt(100, 999))
+            ));
+        }
+        // when
+        Utilisateur returnedUtilisateur = utilisateurService.update(foundUtilisateur);
+        // then
+        assertEquals(foundUtilisateur, returnedUtilisateur);
     }
 
     @Test
     void delete() {
         // given
+        Utilisateur savedUtilisateur = utilisateurService.save(utilisateur);
         // when
-        utilisateurService.delete(randomUtilisateur);
+        utilisateurService.delete(savedUtilisateur);
         // then
-        assertNull(utilisateurService.findById(randomUtilisateur.getId()));
+        assertNull(utilisateurService.findById(savedUtilisateur.getId()));
     }
 
     @Test
     void findById() {
         // given
+        Utilisateur savedUtilisateur = utilisateurService.save(utilisateur);
         // when
-        Utilisateur utilisateur = utilisateurService.findById(randomUtilisateur.getId());
+        Utilisateur foundUtilisateur = utilisateurService.findById(savedUtilisateur.getId());
         // then
-        assertEquals(randomUtilisateur, utilisateur);
+        assertEquals(savedUtilisateur.getId(), foundUtilisateur.getId());
     }
 
     @Test
     void findAll() {
         //given
+        utilisateurService.save(utilisateur);
         //when
-        int size = utilisateurService.findAll().size();
+        Collection<? extends Utilisateur> foundUtilisateurList = utilisateurService.findAll();
         //then
-        assertTrue(size > 0);
+        assertTrue(foundUtilisateurList.size() > 0);
     }
 
     @Test
     void findByEmail() {
-        // given
+        //given
+        utilisateurService.save(utilisateur);
         // when
-        Utilisateur utilisateur = utilisateurService.findByEmail(randomUtilisateur.getEmail());
+        Utilisateur foundUtilisateur = utilisateurService.findByEmail(utilisateur.getEmail());
         // then
-        assertEquals(randomUtilisateur, utilisateur);
+        assertEquals(utilisateur.getEmail(), foundUtilisateur.getEmail());
     }
 }

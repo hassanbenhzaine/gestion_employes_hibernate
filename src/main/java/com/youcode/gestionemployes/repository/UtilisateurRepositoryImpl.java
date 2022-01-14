@@ -64,7 +64,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         EntityManager em = emf.createEntityManager();
         Optional<Utilisateur> utilisateur = em.createNamedQuery("Utilisateur.findByEmail", Utilisateur.class)
                 .setParameter("email", email)
-                .getResultList().stream().findFirst();
+                .getResultStream().findFirst();
         em.close();
         return utilisateur;
     }

@@ -8,7 +8,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @SuperBuilder
@@ -16,9 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @Entity(name = "utilisateurs")
 @Inheritance(strategy = InheritanceType.JOINED)
-@NamedQuery(name = "Utilisateur.findAll", query = "SELECT a FROM utilisateurs a")
-@NamedQuery(name = "Utilisateur.findByEmail",
-        query = "SELECT a FROM utilisateurs a WHERE a.email = :email")
+@NamedQueries({
+        @NamedQuery(name = "Utilisateur.findAll", query = "SELECT a FROM utilisateurs a"),
+        @NamedQuery(name = "Utilisateur.findByEmail",
+                query = "SELECT a FROM utilisateurs a WHERE a.email = :email")
+})
 public class Utilisateur implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -37,6 +38,6 @@ public class Utilisateur implements Serializable {
     @Column(columnDefinition = "boolean default false")
     private Boolean status;
 
-    @OneToMany
-    private List<Adresse> adresses;
+//    @OneToMany
+//    private List<Adresse> adresses;
 }

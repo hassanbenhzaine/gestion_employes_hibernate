@@ -21,7 +21,6 @@ import java.io.Serializable;
 public class Employe extends Utilisateur implements Serializable {
     @Column(unique = true)
     private String matricule;
-    @Column(unique = true)
     private Double salaire;
 
     @Override
