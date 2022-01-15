@@ -22,11 +22,11 @@ public class EditEmployeServlet extends HttpServlet {
     @Override
     public void init() {
         te = TemplateEngineProvider.getTemplateEngine();
-        employeService = new EmployeService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        employeService = new EmployeService();
         Employe employeToEdit = employeService.findById(Integer.valueOf(req.getParameter("id")));
 
         if (employeToEdit != null) {
@@ -41,6 +41,7 @@ public class EditEmployeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        employeService = new EmployeService();
         String id = req.getParameter("id");
         Employe foundEmploye = Employe.builder()
                 .id(Integer.valueOf(id)).build();
