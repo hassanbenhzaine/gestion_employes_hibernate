@@ -55,16 +55,15 @@ class EmployeServiceTest {
     @Test
     void update() {
         // given
-        Employe foundEmploye = employeService.findAll().stream()
-                .findAny().orElse(null);
-        if (foundEmploye != null) {
-            foundEmploye.setLastName("newLastName");
-            foundEmploye.setMatricule("AB" + new Random().nextInt(0, 999999));
+        Employe savedEmploye = employeService.save(employe);
+        if (savedEmploye != null) {
+            savedEmploye.setLastName("newLastName");
+            savedEmploye.setMatricule("AB" + new Random().nextInt(0, 999999));
         }
         // when
-        Employe updatedUtilisateur = employeService.update(foundEmploye);
+        Employe updatedUtilisateur = employeService.update(savedEmploye);
         // then
-        assertEquals(foundEmploye, updatedUtilisateur);
+        assertEquals(savedEmploye, updatedUtilisateur);
     }
 
     @Test

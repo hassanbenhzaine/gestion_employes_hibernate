@@ -53,18 +53,17 @@ class UtilisateurServiceTest {
     @Test
     void update() {
         // given
-        Utilisateur foundUtilisateur = utilisateurService.findAll().stream()
-                .findAny().orElse(null);
-        if (foundUtilisateur != null) {
-            foundUtilisateur.setLastName("newLastName");
-            foundUtilisateur.setPassword("passwd".concat(
+        Utilisateur savedUtilisateur = utilisateurService.save(utilisateur);
+        if (savedUtilisateur != null) {
+            savedUtilisateur.setLastName("newLastName");
+            savedUtilisateur.setPassword("passwd".concat(
                     String.valueOf(new Random().nextInt(100, 999))
             ));
         }
         // when
-        Utilisateur updatedUtilisateur = utilisateurService.update(foundUtilisateur);
+        Utilisateur updatedUtilisateur = utilisateurService.update(savedUtilisateur);
         // then
-        assertEquals(foundUtilisateur, updatedUtilisateur);
+        assertEquals(savedUtilisateur, updatedUtilisateur);
     }
 
     @Test

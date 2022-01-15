@@ -54,16 +54,15 @@ class AdministrateurServiceTest {
     @Test
     void update() {
         // given
-        Administrateur foundAdministrateur = administrateurService.findAll().stream()
-                .findAny().orElse(null);
-        if (foundAdministrateur != null) {
-            foundAdministrateur.setLastName("newLastName");
-            foundAdministrateur.setXccc("abcd");
+        Administrateur savedAdministrateur = administrateurService.save(administrateur);
+        if (savedAdministrateur != null) {
+            savedAdministrateur.setLastName("newLastName");
+            savedAdministrateur.setXccc("abcd");
         }
         // when
-        Administrateur updatedUtilisateur = administrateurService.update(foundAdministrateur);
+        Administrateur updatedUtilisateur = administrateurService.update(savedAdministrateur);
         // then
-        assertEquals(foundAdministrateur, updatedUtilisateur);
+        assertEquals(savedAdministrateur, updatedUtilisateur);
     }
 
     @Test
