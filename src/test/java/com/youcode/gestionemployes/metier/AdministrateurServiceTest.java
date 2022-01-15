@@ -55,10 +55,6 @@ class AdministrateurServiceTest {
     void update() {
         // given
         Administrateur savedAdministrateur = administrateurService.save(administrateur);
-        if (savedAdministrateur != null) {
-            savedAdministrateur.setLastName("newLastName");
-            savedAdministrateur.setXccc("abcd");
-        }
         // when
         Administrateur updatedUtilisateur = administrateurService.update(savedAdministrateur);
         // then

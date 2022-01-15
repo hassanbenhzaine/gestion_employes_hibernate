@@ -54,12 +54,6 @@ class UtilisateurServiceTest {
     void update() {
         // given
         Utilisateur savedUtilisateur = utilisateurService.save(utilisateur);
-        if (savedUtilisateur != null) {
-            savedUtilisateur.setLastName("newLastName");
-            savedUtilisateur.setPassword("passwd".concat(
-                    String.valueOf(new Random().nextInt(100, 999))
-            ));
-        }
         // when
         Utilisateur updatedUtilisateur = utilisateurService.update(savedUtilisateur);
         // then

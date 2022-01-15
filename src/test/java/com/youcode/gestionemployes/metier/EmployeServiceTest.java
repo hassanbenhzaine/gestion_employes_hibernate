@@ -56,10 +56,6 @@ class EmployeServiceTest {
     void update() {
         // given
         Employe savedEmploye = employeService.save(employe);
-        if (savedEmploye != null) {
-            savedEmploye.setLastName("newLastName");
-            savedEmploye.setMatricule("AB" + new Random().nextInt(0, 999999));
-        }
         // when
         Employe updatedUtilisateur = employeService.update(savedEmploye);
         // then
