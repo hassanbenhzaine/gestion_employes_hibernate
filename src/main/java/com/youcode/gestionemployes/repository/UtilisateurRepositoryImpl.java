@@ -9,16 +9,21 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class UtilisateurRepositoryImpl implements UtilisateurRepository {
+public class UtilisateurRepositoryImpl implements IUtilisateurRepository {
     private final EntityManagerFactory emf = PersistenceManager.getEntityManagerFactory();
 
     @Override
     public Utilisateur save(Utilisateur utilisateur) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(utilisateur);
-        em.getTransaction().commit();
-        em.close();
+        try {
+            em.getTransaction().begin();
+            em.persist(utilisateur);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
         return utilisateur;
     }
 
@@ -43,20 +48,30 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     @Override
     public Utilisateur update(Utilisateur utilisateur) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        Utilisateur updatedEmploye = em.merge(utilisateur);
-        em.getTransaction().commit();
-        em.close();
-        return updatedEmploye;
+        try {
+            em.getTransaction().begin();
+            em.merge(utilisateur);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+        return utilisateur;
     }
 
     @Override
     public void delete(Utilisateur utilisateur) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.remove(em.contains(utilisateur) ? utilisateur : em.merge(utilisateur));
-        em.getTransaction().commit();
-        em.close();
+        try {
+            em.getTransaction().begin();
+            em.remove(em.merge(utilisateur));
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
     }
 
     @Override

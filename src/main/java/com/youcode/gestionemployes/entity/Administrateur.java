@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+
 @Data
 @SuperBuilder
 @AllArgsConstructor
@@ -17,10 +18,4 @@ import lombok.experimental.SuperBuilder;
 @NamedQuery(name = "Administrateur.findAll", query = " SELECT a FROM administrateurs a")
 public class Administrateur extends Utilisateur {
     private String xccc;
-    @Override
-    public String toString() {
-        return "Administrateur{" +
-                "xccc='" + xccc + '\'' +
-                "} " + super.toString();
-    }
 }

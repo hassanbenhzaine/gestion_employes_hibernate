@@ -20,12 +20,4 @@ public class Employe extends Utilisateur {
     @Column(unique = true)
     private String matricule;
     private Double salaire;
-
-    @Override
-    public String toString() {
-        return "Employe{" +
-                "matricule='" + matricule + '\'' +
-                ", salaire=" + salaire +
-                "} " + super.toString();
-    }
 }

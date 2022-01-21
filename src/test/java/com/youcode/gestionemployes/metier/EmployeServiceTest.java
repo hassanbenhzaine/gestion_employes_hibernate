@@ -27,8 +27,12 @@ class EmployeServiceTest {
                 .password("passwd".concat(
                         String.valueOf(new Random().nextInt(100, 999))
                 ))
-                .firstName("firstName")
-                .lastName("lastName")
+                .firstName("firstName".concat(String.valueOf(
+                        new Random().nextInt(0, 100)
+                )))
+                .lastName("lastName".concat(String.valueOf(
+                        new Random().nextInt(0, 100)
+                )))
                 .dateOfBirth(LocalDate.of(
                         new Random().nextInt(1950, 2021),
                         new Random().nextInt(1, 12),
