@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Entity(name = "administrateurs")
 @PrimaryKeyJoinColumn(name = "administrateur_id")
-@NamedQuery(name = "Administrateur.findAll", query = " SELECT a FROM administrateurs a")
+@NamedQuery(name = "Administrateur.findAll", query = "FROM administrateurs")
 public class Administrateur extends Utilisateur {
     private String xccc;
 }

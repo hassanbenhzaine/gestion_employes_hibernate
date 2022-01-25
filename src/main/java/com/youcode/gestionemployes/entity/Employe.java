@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Entity(name = "employes")
 @PrimaryKeyJoinColumn(name = "employe_id")
-@NamedQuery(name = "Employe.findAll", query = " SELECT a FROM employes a")
+@NamedQuery(name = "Employe.findAll", query = "FROM employes")
 public class Employe extends Utilisateur {
     @Column(unique = true)
     private String matricule;

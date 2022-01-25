@@ -8,13 +8,11 @@
 //
 //@AllArgsConstructor
 //@NoArgsConstructor
-//@Data
+//@Getter
+//@Setter @ToString
 //@Builder
-//@Entity
+//@Embeddable
 //public class Adresse {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
 //    private String rue;
 //    private String ville;
 //    @Column(name = "code_postal")

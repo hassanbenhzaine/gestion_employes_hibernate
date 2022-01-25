@@ -15,12 +15,14 @@ import java.time.LocalDate;
 @Entity(name = "utilisateurs")
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQueries({
-        @NamedQuery(name = "Utilisateur.findAll", query = "SELECT a FROM utilisateurs a"),
+        @NamedQuery(name = "Utilisateur.findAll", query = "FROM utilisateurs"),
         @NamedQuery(name = "Utilisateur.findByEmail",
-                query = "SELECT a FROM utilisateurs a WHERE a.email = :email")
+                query = "FROM utilisateurs WHERE email = :email")
 })
 public class Utilisateur {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "utilisateurs_seq")
+    @SequenceGenerator(name = "utilisateurs_seq", sequenceName = "utilisateurs_seq",
+            allocationSize = 1)
     @Id
     @Column(updatable = false)
     private Integer id;
@@ -38,7 +40,11 @@ public class Utilisateur {
     @Column(columnDefinition = "boolean default false")
     private Boolean status;
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
-    private GenderType genderType;
+    @Column(name = "gender", length = 1)
+    private GenderType gender;
     private Short age;
+
+//    @ElementCollection
+//    private List<Adresse> adresses = new HashSet<>();
+
 }
