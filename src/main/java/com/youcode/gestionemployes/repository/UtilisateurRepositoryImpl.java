@@ -76,7 +76,7 @@ public class UtilisateurRepositoryImpl implements IUtilisateurRepository {
         try (Session session = sf.openSession()) {
             return session.createNamedQuery("Utilisateur.findByEmail", Utilisateur.class)
                     .setParameter("email", email)
-                    .getResultStream().findFirst();
+                    .uniqueResultOptional();
         } catch (Exception e) {
             e.printStackTrace();
         }
